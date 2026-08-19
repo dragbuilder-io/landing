@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Button from '@dragbuilder-io/design-system/Button.astro';
 
 const LATEST_JSON_URL = 'https://storage.googleapis.com/dragbuilder-io-releases/releases/latest.json';
 
@@ -92,12 +93,7 @@ const features = [
         underneath.
       </p>
       <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
-          href="#download"
-          class="w-full rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:opacity-90 sm:w-auto"
-        >
-          Download DragBuilder
-        </a>
+        <Button text="Download DragBuilder" href="#download" />
         <a
           href="https://app.dragbuilder.io"
           class="w-full rounded-full border border-white/15 px-7 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 sm:w-auto"
