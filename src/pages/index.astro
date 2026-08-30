@@ -93,7 +93,9 @@ const features = [
         >
           Try it in your browser
         </orbit-button>
-        <orbit-button href="#download" size="md" variant="secondary" class="w-full justify-center sm:w-auto">Download DragBuilder</orbit-button>
+        <div id="hero-download-wrap" class="w-full sm:w-auto">
+          <orbit-button href="#download" size="md" variant="secondary" class="w-full justify-center sm:w-auto">Download DragBuilder</orbit-button>
+        </div>
       </div>
       <p class="mt-4 text-xs text-text-muted">Free to start. No credit card required.</p>
     </div>
@@ -135,27 +137,48 @@ const features = [
   <section id="download" class="border-t border-border-strong bg-surface-secondary/20">
     <div class="mx-auto max-w-5xl px-6 py-24 text-center">
       <h2 class="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">Get DragBuilder</h2>
-      <p class="mt-4 text-text-secondary">Free to start. Available for macOS, Windows and Linux.</p>
 
-      <div class="mt-12 flex flex-col items-center gap-4">
-        <orbit-button id="primary-download" href={releases.mac.url} size="lg" leading-icon="download">
-          Download for macOS
-        </orbit-button>
-        <p id="alt-downloads" class="text-xs text-text-muted">
-          v{releases.version} · Also available for{' '}
-          <a href={releases.windows.url} data-os="windows" class="text-text-secondary underline underline-offset-2 hover:text-text-primary">Windows</a>
-          {' '}·{' '}
-          <a href={releases.linux.deb.url} data-os="linux" class="text-text-secondary underline underline-offset-2 hover:text-text-primary">Linux</a>
-        </p>
-        <p id="linux-rpm-note" class="hidden text-xs text-text-muted">
-          Fedora/RHEL? Grab the <a href={releases.linux.rpm.url} class="text-text-secondary underline underline-offset-2 hover:text-text-primary">.rpm</a> instead.
+      <!-- Desktop installers — hidden by JS on phones/tablets, where none of these
+           can actually be installed; those visitors see #mobile-download-fallback instead. -->
+      <div id="desktop-download-ui">
+        <p class="mt-4 text-text-secondary">Free to start. Available for macOS, Windows and Linux.</p>
+
+        <div class="mt-12 flex flex-col items-center gap-4">
+          <orbit-button id="primary-download" href={releases.mac.url} size="lg" leading-icon="download">
+            Download for macOS
+          </orbit-button>
+          <p id="alt-downloads" class="text-xs text-text-muted">
+            v{releases.version} · Also available for{' '}
+            <a href={releases.windows.url} data-os="windows" class="text-text-secondary underline underline-offset-2 hover:text-text-primary">Windows</a>
+            {' '}·{' '}
+            <a href={releases.linux.deb.url} data-os="linux" class="text-text-secondary underline underline-offset-2 hover:text-text-primary">Linux</a>
+          </p>
+          <p id="linux-rpm-note" class="hidden text-xs text-text-muted">
+            Fedora/RHEL? Grab the <a href={releases.linux.rpm.url} class="text-text-secondary underline underline-offset-2 hover:text-text-primary">.rpm</a> instead.
+          </p>
+        </div>
+
+        <p class="mt-8 text-xs text-text-muted">
+          Windows installer is currently unsigned — you may see a SmartScreen "unknown publisher" warning on first
+          install.
         </p>
       </div>
 
-      <p class="mt-8 text-xs text-text-muted">
-        Windows installer is currently unsigned — you may see a SmartScreen "unknown publisher" warning on first
-        install.
-      </p>
+      <!-- Phone/tablet fallback — none of the desktop installers above apply here. -->
+      <div id="mobile-download-fallback" class="hidden">
+        <p class="mt-4 max-w-md mx-auto text-text-secondary">
+          The DragBuilder app is available for macOS, Windows and Linux — open this page on a computer to
+          download it. From here, you can try DragBuilder right in your browser instead.
+        </p>
+        <orbit-button
+          href="https://app.dragbuilder.io"
+          size="md"
+          trailing-icon="arrow-right"
+          class="mt-8"
+        >
+          Try it in your browser
+        </orbit-button>
+      </div>
     </div>
   </section>
 
@@ -175,42 +198,54 @@ const features = [
     import '@dragbuilder-io/orbit/orbit-badge.js';
     import '@dragbuilder-io/orbit/orbit-card.js';
 
-    // Progressive enhancement only — every download link already points at a real,
-    // working URL server-rendered above (macOS as the primary button, Windows/Linux
-    // as the two text links). This just swaps which platform is primary to match
-    // the visitor's OS, so they don't have to think about which one to click.
-    const primaryBtn = document.getElementById('primary-download');
-    const altLinks = document.querySelectorAll<HTMLAnchorElement>('#alt-downloads a');
-
-    const platforms: Record<string, { label: string; href: string }> = {
-      mac: { label: 'macOS', href: primaryBtn?.getAttribute('href') ?? '' },
-      windows: { label: 'Windows', href: altLinks[0]?.getAttribute('href') ?? '' },
-      linux: { label: 'Linux', href: altLinks[1]?.getAttribute('href') ?? '' },
-    };
-
     const ua = navigator.userAgent.toLowerCase();
-    let detected = 'mac';
-    if (ua.includes('win')) detected = 'windows';
-    else if (ua.includes('linux') && !ua.includes('android')) detected = 'linux';
 
-    const rest = Object.keys(platforms).filter((p) => p !== detected);
+    // None of the desktop installers below this point can be installed from a
+    // phone or tablet — swap that whole section (and the hero's secondary
+    // "Download" button) for a "try it in the browser instead" message.
+    const isMobile = /android|iphone|ipad|ipod|mobile/.test(ua);
 
-    if (primaryBtn) {
-      primaryBtn.setAttribute('href', platforms[detected].href);
-      primaryBtn.textContent = `Download for ${platforms[detected].label}`;
-    }
-    rest.forEach((p, i) => {
-      const link = altLinks[i];
-      if (!link) return;
-      link.setAttribute('href', platforms[p].href);
-      link.textContent = platforms[p].label;
-    });
+    if (isMobile) {
+      document.getElementById('hero-download-wrap')?.classList.add('hidden');
+      document.getElementById('desktop-download-ui')?.classList.add('hidden');
+      document.getElementById('mobile-download-fallback')?.classList.remove('hidden');
+    } else {
+      // Progressive enhancement only — every download link already points at a real,
+      // working URL server-rendered above (macOS as the primary button, Windows/Linux
+      // as the two text links). This just swaps which platform is primary to match
+      // the visitor's OS, so they don't have to think about which one to click.
+      const primaryBtn = document.getElementById('primary-download');
+      const altLinks = document.querySelectorAll<HTMLAnchorElement>('#alt-downloads a');
 
-    // Only the .deb link is ever promoted to primary/alt — Fedora/RHEL users
-    // need a way to reach the .rpm too, so surface it as a small extra note
-    // instead of a third slot in the already-minimal button+links layout.
-    if (detected === 'linux') {
-      document.getElementById('linux-rpm-note')?.classList.remove('hidden');
+      const platforms: Record<string, { label: string; href: string }> = {
+        mac: { label: 'macOS', href: primaryBtn?.getAttribute('href') ?? '' },
+        windows: { label: 'Windows', href: altLinks[0]?.getAttribute('href') ?? '' },
+        linux: { label: 'Linux', href: altLinks[1]?.getAttribute('href') ?? '' },
+      };
+
+      let detected = 'mac';
+      if (ua.includes('win')) detected = 'windows';
+      else if (ua.includes('linux')) detected = 'linux';
+
+      const rest = Object.keys(platforms).filter((p) => p !== detected);
+
+      if (primaryBtn) {
+        primaryBtn.setAttribute('href', platforms[detected].href);
+        primaryBtn.textContent = `Download for ${platforms[detected].label}`;
+      }
+      rest.forEach((p, i) => {
+        const link = altLinks[i];
+        if (!link) return;
+        link.setAttribute('href', platforms[p].href);
+        link.textContent = platforms[p].label;
+      });
+
+      // Only the .deb link is ever promoted to primary/alt — Fedora/RHEL users
+      // need a way to reach the .rpm too, so surface it as a small extra note
+      // instead of a third slot in the already-minimal button+links layout.
+      if (detected === 'linux') {
+        document.getElementById('linux-rpm-note')?.classList.remove('hidden');
+      }
     }
   </script>
 </Layout>
