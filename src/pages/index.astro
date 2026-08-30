@@ -25,28 +25,28 @@ try {
 
 const features = [
   {
-    title: 'Drag-and-drop UI builder',
-    body: 'Compose real Jetpack Compose screens visually from a live component palette — no boilerplate, no guesswork.',
+    title: 'Design by dragging, not coding',
+    body: 'Build your screens visually from a library of ready-made pieces — buttons, forms, lists and more. No technical knowledge needed.',
   },
   {
-    title: 'Real Kotlin, not a black box',
-    body: 'Every screen generates clean, idiomatic Compose code you can read, extend, and own — nothing hidden behind a runtime.',
+    title: 'A real app, not a mockup',
+    body: 'What you design actually works — it’s not a prototype or a preview. You get a genuine, functioning app underneath.',
   },
   {
-    title: 'One project, four platforms',
-    body: 'Desktop, Android, iOS and Web from the same codebase, powered by Kotlin Multiplatform.',
+    title: 'One app, every device',
+    body: 'Build once and it runs on Desktop, Android, iPhone and the Web — no extra work to reach each one separately.',
   },
   {
-    title: 'AI-assisted building',
-    body: 'Describe what you want and let the built-in AI wire up screens, state and logic for you.',
+    title: 'AI does the hard part',
+    body: 'Describe what you want in plain language, and let the built-in AI put together the screens and logic for you.',
   },
   {
-    title: 'Firebase & APIs built in',
-    body: 'Connect Firestore, Auth, and REST/GraphQL APIs without hand-writing integration boilerplate.',
+    title: 'Connect your data',
+    body: 'Add logins, a database, or outside services to your app without any technical setup.',
   },
   {
-    title: 'Own your code',
-    body: 'Export a real Gradle project whenever you want. No lock-in, no proprietary runtime to migrate away from.',
+    title: 'It’s really yours',
+    body: 'Export your project whenever you want. Nothing hidden, nothing proprietary keeping you locked in.',
   },
 ];
 ---
@@ -75,26 +75,25 @@ const features = [
     >
     </div>
     <div class="relative mx-auto max-w-5xl px-6 pt-24 pb-16 text-center">
-      <orbit-badge label="Compose Multiplatform, visually" size="md"></orbit-badge>
+      <orbit-badge label="No code needed" size="md"></orbit-badge>
       <h1 class="mt-6 text-balance text-5xl font-semibold tracking-tight text-text-primary sm:text-6xl">
         Build real apps by <span class="text-lime">dragging</span>, not coding.
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary">
-        DragBuilder is a visual UI builder for Kotlin Compose Multiplatform. Design your screens, wire up
-        logic, and ship native apps for Desktop, Android, iOS and Web — with clean, readable Kotlin code
-        underneath.
+        DragBuilder lets anyone design an app just by dragging and dropping — no technical background
+        needed. Build your screens, connect your data, and launch on Desktop, Android, iPhone and the Web,
+        all from one project.
       </p>
       <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <orbit-button href="#download" size="md">Download DragBuilder</orbit-button>
         <orbit-button
           href="https://app.dragbuilder.io"
           size="md"
-          variant="secondary"
           trailing-icon="arrow-right"
           class="w-full sm:w-auto"
         >
           Try it in your browser
         </orbit-button>
+        <orbit-button href="#download" size="md" variant="secondary">Download DragBuilder</orbit-button>
       </div>
       <p class="mt-4 text-xs text-text-muted">Free to start. No credit card required.</p>
     </div>
@@ -104,7 +103,7 @@ const features = [
       <div class="overflow-hidden rounded-card border border-border-strong bg-surface-sunken shadow-2xl">
         <Image
           src={heroBuilder}
-          alt="The DragBuilder canvas: a live component palette on the left, a phone preview rendering a real Compose UI in the center, and property inspectors on the right."
+          alt="The DragBuilder canvas: a library of ready-made pieces on the left, a live preview of the real app in the center, and its settings on the right."
           width={2000}
           height={1414}
           loading="eager"
