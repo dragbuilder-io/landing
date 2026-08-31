@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page not found — DragBuilder" description="This page doesn't exist. Head back to DragBuilder to keep building.">
+  <div class="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+    <p class="text-sm font-medium text-text-muted">404</p>
+    <h1 class="mt-4 text-balance text-4xl font-semibold tracking-tight text-text-primary sm:text-5xl">
+      This page doesn't exist.
+    </h1>
+    <p class="mx-auto mt-4 max-w-md text-text-secondary">
+      The link you followed may be broken, or the page may have moved. Let's get you back on track.
+    </p>
+    <div class="mt-10">
+      <orbit-button href="/" size="md">Back to DragBuilder</orbit-button>
+    </div>
+  </div>
+
+  <script>
+    import '@dragbuilder-io/orbit/orbit-button.js';
+  </script>
+</Layout>

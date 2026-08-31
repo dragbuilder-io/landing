@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title = 'DragBuilder — Build real apps by dragging, not coding',
-  description = 'DragBuilder lets anyone design and launch a real app just by dragging and dropping — no technical background needed. Works on Desktop, Android, iPhone and the Web.',
+  description = 'Design and launch a real app just by dragging and dropping — no technical background needed. Works on Desktop, Android, iPhone and the Web.',
 } = Astro.props;
 
 // Only set to "dev" by the deploy-dev CI job (see .github/workflows/deploy.yml)
@@ -22,6 +22,8 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
