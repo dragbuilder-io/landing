@@ -36,6 +36,20 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL('/og-image.png', Astro.site)} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'DragBuilder',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'macOS, Windows, Linux, Android, iOS, Web',
+      description,
+      url: 'https://dragbuilder.io',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+    })} />
     {isDevEnv && (
       <style>
         .dev-env-ribbon {
