@@ -1,1 +1,38 @@
 @import "tailwindcss";
+@import "@dragbuilder-io/design-tokens/dist/css/tokens.css";
+@import "@dragbuilder-io/design-tokens/dist/css/fonts.css";
+
+/* Maps Orbit's design tokens into Tailwind's utility namespace — Orbit is the
+   single source of design truth for this site, so every color/radius/font
+   utility used in markup should resolve back to one of these, never a raw
+   Tailwind default or an arbitrary hex value. */
+@theme {
+  --font-sans: var(--typography-font-family), ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface: var(--color-surface-background);
+  --color-surface-secondary: var(--color-surface-background-secondary);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-surface-card: var(--color-surface-card);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-border-strong: var(--color-surface-border-strong);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-lime: var(--color-primary-500);
+  --color-lime-press: var(--color-primary-600);
+  --color-lime-rule: var(--color-primary-700);
+
+  --radius-field: var(--radius-md);
+  --radius-panel: var(--radius-lg);
+  --radius-card: var(--radius-3xl);
+  --radius-pill: var(--radius-full);
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
