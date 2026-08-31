@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = 'DragBuilder — Build Compose Multiplatform apps by dragging, not coding',
-  description = 'DragBuilder is a visual UI builder for Kotlin Compose Multiplatform. Drag, drop, and ship real production apps for Desktop, Android, iOS and Web.',
+  title = 'DragBuilder — Build real apps by dragging, not coding',
+  description = 'Design and launch a real app just by dragging and dropping — no technical background needed. Works on Desktop, Android, iPhone and the Web.',
 } = Astro.props;
 
 // Only set to "dev" by the deploy-dev CI job (see .github/workflows/deploy.yml)
@@ -22,12 +22,36 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL('/og-image.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/og-image.png', Astro.site)} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'DragBuilder',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'macOS, Windows, Linux, Android, iOS, Web',
+      description,
+      url: 'https://dragbuilder.io',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+    })} />
     {isDevEnv && (
       <style>
         .dev-env-ribbon {
@@ -59,7 +83,7 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
       </style>
     )}
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased">
+  <body class="bg-surface text-text-primary antialiased">
     {isDevEnv && (
       <div class="dev-env-ribbon" aria-hidden="true">
         <span>DEV</span>
