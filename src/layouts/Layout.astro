@@ -90,5 +90,31 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
       </div>
     )}
     <slot />
+    <!--
+      Paddle's "default payment link" account setting points at this site's root — when
+      dragbuilder-backend creates a checkout transaction (see billing/paddle.ts), Paddle
+      redirects the user here with `?_ptxn=<transactionId>` for us to resume. Inert on every
+      normal page load (no _ptxn param, nothing runs) — this only fires on that return trip.
+
+      PADDLE_CLIENT_TOKEN below is the Sandbox client-side token (safe to ship publicly — it
+      can only open a checkout, not create transactions or read data). Swap it for the Live
+      client-side token (and drop the sandbox Environment.set call) once this goes to
+      production — see the same Sandbox→Live TODO on PaddlePriceIds.kt/dragbuilder-backend.
+    -->
+    <script define:vars={{ isDevEnv }}>
+      const PADDLE_CLIENT_TOKEN = 'test_fdc7c1d126e68fbc458311cb6d3';
+
+      const transactionId = new URLSearchParams(window.location.search).get('_ptxn');
+      if (transactionId) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+        script.onload = () => {
+          if (isDevEnv) Paddle.Environment.set('sandbox');
+          Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN });
+          Paddle.Checkout.open({ transactionId });
+        };
+        document.head.appendChild(script);
+      }
+    </script>
   </body>
 </html>
