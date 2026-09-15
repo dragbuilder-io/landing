@@ -21,6 +21,11 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
       <p class="text-text-secondary">There's no checkout in progress for this link.</p>
       <orbit-button href="/" size="md">Back to DragBuilder</orbit-button>
     </div>
+
+    <div id="success-state" hidden class="mt-6 flex flex-col items-center gap-3">
+      <p class="text-text-primary font-medium">Payment successful!</p>
+      <p class="text-text-secondary">You can close this tab and go back to DragBuilder.</p>
+    </div>
   </div>
 
   <script>
@@ -52,7 +57,18 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
       script.onload = () => {
         if (isDevEnv) Paddle.Environment.set('sandbox');
         Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN });
-        Paddle.Checkout.open({ transactionId });
+        Paddle.Checkout.open({
+          transactionId,
+          // Paddle's own overlay already shows its own success screen — this just tells the
+          // user what to do once they dismiss it (there's nothing else for this page to do;
+          // the actual plan update happens async via dragbuilder-backend's paddleWebhook).
+          eventCallback: (event) => {
+            if (event.name === 'checkout.completed') {
+              document.getElementById('opening-state').hidden = true;
+              document.getElementById('success-state').hidden = false;
+            }
+          },
+        });
       };
       document.head.appendChild(script);
     }
