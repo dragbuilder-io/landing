@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Only set to "dev" by the deploy-dev CI job (see .github/workflows/deploy.yml) — same flag
+// Layout.astro uses for its dev ribbon.
+const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
+---
+
+<Layout title="Checkout — DragBuilder" description="Completing your DragBuilder purchase.">
+  <div class="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+    <svg viewBox="0 0 128 128" fill="#fff" class="h-10 w-10 opacity-90" aria-hidden="true">
+      <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
+    </svg>
+
+    <div id="opening-state" class="mt-6 flex flex-col items-center gap-3">
+      <div class="h-5 w-5 animate-spin rounded-full border-2 border-text-muted border-t-transparent"></div>
+      <p class="text-sm text-text-secondary">Opening secure checkout…</p>
+    </div>
+
+    <div id="no-checkout-state" hidden class="mt-6 flex flex-col items-center gap-3">
+      <p class="text-text-secondary">There's no checkout in progress for this link.</p>
+      <orbit-button href="/" size="md">Back to DragBuilder</orbit-button>
+    </div>
+  </div>
+
+  <script>
+    import '@dragbuilder-io/orbit/orbit-button.js';
+  </script>
+
+  <!--
+    Paddle's checkout transaction (created in dragbuilder-backend's billing/paddle.ts) sets
+    `checkout.url` explicitly to this page, with `?_ptxn=<transactionId>` appended by Paddle —
+    a dedicated page (vs. the marketing homepage) so returning from checkout doesn't feel like
+    you left the product. Both the desktop app (opens this in the system browser) and the web
+    build point here.
+
+    PADDLE_CLIENT_TOKEN below is the Sandbox client-side token (safe to ship publicly — it can
+    only open a checkout, not create transactions or read data). Swap it for the Live
+    client-side token (and drop the sandbox Environment.set call) once this goes to production
+    — see the same Sandbox→Live TODO on PaddlePriceIds.kt/dragbuilder-backend.
+  -->
+  <script define:vars={{ isDevEnv }}>
+    const PADDLE_CLIENT_TOKEN = 'test_fdc7c1d126e68fbc458311cb6d3';
+
+    const transactionId = new URLSearchParams(window.location.search).get('_ptxn');
+    if (!transactionId) {
+      document.getElementById('opening-state').hidden = true;
+      document.getElementById('no-checkout-state').hidden = false;
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+      script.onload = () => {
+        if (isDevEnv) Paddle.Environment.set('sandbox');
+        Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN });
+        Paddle.Checkout.open({ transactionId });
+      };
+      document.head.appendChild(script);
+    }
+  </script>
+</Layout>
