@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "@dragbuilder-io/orbit": "^0.33.1",
+    "@dragbuilder-io/orbit": "0.34.1-dev.142",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.2",
     "tailwindcss": "^4.3.3"
