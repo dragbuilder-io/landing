@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@dragbuilder-io/design-tokens/dist/css/tokens.css";
+@import "@dragbuilder-io/design-tokens/dist/css/tokens-light.css";
 @import "@dragbuilder-io/design-tokens/dist/css/fonts.css";
 
 /* Maps Orbit's design tokens into Tailwind's utility namespace — Orbit is the
@@ -25,6 +26,9 @@
   --color-lime-press: var(--color-primary-600);
   --color-lime-rule: var(--color-primary-700);
 
+  --color-success: var(--color-semantic-success-solid);
+  --color-success-surface: var(--color-semantic-success-surface);
+
   --radius-field: var(--radius-md);
   --radius-panel: var(--radius-lg);
   --radius-card: var(--radius-3xl);
@@ -35,4 +39,18 @@ body {
   background: var(--color-surface);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+}
+
+/* FAQ <details> disclosure — plain global CSS, not a scoped <style> in the
+   page component: the chevron icon is injected via set:html (orbit's
+   iconMarkup), so it never gets Astro's per-component scoping attribute,
+   and a scoped selector reaching into it silently never matches. */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary span svg {
+  transition: transform 150ms ease;
+}
+.faq-item[open] summary span svg {
+  transform: rotate(180deg);
 }

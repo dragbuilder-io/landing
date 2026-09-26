@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import heroBuilder from '../assets/hero-builder.png';
+import { iconMarkup } from '@dragbuilder-io/orbit/icons.js';
 
 const LATEST_JSON_URL = 'https://storage.googleapis.com/dragbuilder-io-releases/releases/latest.json';
 
@@ -23,30 +24,87 @@ try {
   // keep fallback above
 }
 
+const platforms = [
+  { label: 'Desktop', icon: 'monitor' },
+  { label: 'Android', icon: 'smartphone' },
+  { label: 'iPhone', icon: 'smartphone' },
+  { label: 'Web', icon: 'globe' },
+];
+
+// First entry renders larger (sm:col-span-2) in the bento grid below — keep
+// it first if you want it to stay the emphasized one.
 const features = [
   {
-    title: 'Design by dragging, not coding',
-    body: 'Build your screens visually from a library of ready-made pieces — buttons, forms, lists and more. No technical knowledge needed.',
+    icon: 'sparkles',
+    title: 'Describe it, AI builds it',
+    body: 'Describe a screen — or a whole app — in plain language. AI generates the structure, the data model and the logic. You refine it from there by dragging, not by writing code.',
   },
   {
+    icon: 'board',
+    title: 'Design by dragging, not coding',
+    body: 'Adjust anything visually from a library of ready-made pieces — buttons, forms, lists and more. No technical knowledge needed.',
+  },
+  {
+    icon: 'check-circle',
     title: 'A real app, not a mockup',
     body: 'What you design actually works — it’s not a prototype or a preview. You get a genuine, functioning app underneath.',
   },
   {
+    icon: 'globe',
     title: 'One app, every device',
     body: 'Build once and it runs on Desktop, Android, iPhone and the Web — no extra work to reach each one separately.',
   },
   {
-    title: 'AI does the hard part',
-    body: 'Describe what you want in plain language, and let the built-in AI put together the screens and logic for you.',
-  },
-  {
+    icon: 'database',
     title: 'Connect your data',
     body: 'Add logins, a database, or outside services to your app without any technical setup.',
   },
   {
+    icon: 'unlock',
     title: 'It’s really yours',
     body: 'Export your project whenever you want. Nothing hidden, nothing proprietary keeping you locked in.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Can AI really build a whole app, not just a screen?',
+    answer:
+      "Yes. Describe what you want and DragBuilder's built-in AI generates the screens, the data model and the logic behind them — you're not limited to one component or one page at a time.",
+  },
+  {
+    question: 'Do I need to know how to code?',
+    answer:
+      'No. Everything AI generates — and everything you add or adjust afterward — is done by dragging and dropping from a library of ready-made pieces, not by writing code.',
+  },
+  {
+    question: 'Is DragBuilder free?',
+    answer:
+      "Yes, it's free to start and no credit card is required. You can try it in your browser or download the desktop app for macOS, Windows or Linux.",
+  },
+  {
+    question: 'Which platforms can I build for?',
+    answer:
+      "One project runs on Desktop, Android, iPhone and the Web — you don't need to design or build each one separately.",
+  },
+  {
+    question: 'Am I locked into DragBuilder once I build something?',
+    answer: "No. You can export your project whenever you want — nothing about what you build is hidden or proprietary.",
+  },
+];
+
+const steps = [
+  {
+    title: 'Describe your app',
+    body: 'Tell the built-in AI what you want to build — it drafts the first screens, data model and logic for you.',
+  },
+  {
+    title: 'Refine it by dragging',
+    body: 'Adjust anything AI drafted the same way you’d arrange sticky notes — drag, drop, connect the pieces that still need it.',
+  },
+  {
+    title: 'Ship everywhere',
+    body: 'One project, four targets — Desktop, Android, iPhone and the Web.',
   },
 ];
 ---
@@ -61,10 +119,15 @@ const features = [
       </a>
       <div class="hidden items-center gap-8 text-sm text-text-secondary md:flex">
         <a href="#features" class="hover:text-text-primary">Features</a>
+        <a href="#how" class="hover:text-text-primary">How it works</a>
+        <a href="#faq" class="hover:text-text-primary">FAQ</a>
         <a href="#download" class="hover:text-text-primary">Download</a>
         <a href="https://docs.dragbuilder.io" class="hover:text-text-primary">Docs</a>
       </div>
-      <orbit-button href="https://app.dragbuilder.io" size="sm" variant="light">Open app</orbit-button>
+      <div class="flex items-center gap-3">
+        <orbit-theme-toggle id="theme-toggle" value="dark" aria-label="Theme"></orbit-theme-toggle>
+        <orbit-button href="https://app.dragbuilder.io" size="sm" variant="light">Open app</orbit-button>
+      </div>
     </nav>
   </header>
 
@@ -74,68 +137,172 @@ const features = [
       class="pointer-events-none absolute inset-x-0 -top-40 h-[560px] bg-[radial-gradient(ellipse_at_top,_color-mix(in_srgb,_var(--color-lime)_18%,_transparent),_transparent_60%)]"
     >
     </div>
-    <div class="relative mx-auto max-w-5xl px-6 pt-24 pb-16 text-center">
-      <orbit-badge label="No code needed" size="md"></orbit-badge>
-      <h1 class="mt-6 text-balance text-5xl font-semibold tracking-tight text-text-primary sm:text-6xl">
-        Build real apps by <span class="text-lime">dragging</span>, not coding.
-      </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary">
-        DragBuilder lets anyone design an app just by dragging and dropping — no technical background
-        needed. Build your screens, connect your data, and launch on Desktop, Android, iPhone and the Web,
-        all from one project.
-      </p>
-      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <orbit-button
-          href="https://app.dragbuilder.io"
-          size="md"
-          trailing-icon="arrow-right"
-          class="w-full justify-center sm:w-auto"
+
+    <div class="relative mx-auto grid max-w-6xl gap-16 px-6 pt-20 pb-24 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <!-- copy -->
+      <div>
+        <orbit-badge label="AI-powered · No code" size="md"></orbit-badge>
+        <h1 class="mt-6 text-balance text-5xl font-extrabold tracking-tight text-text-primary sm:text-6xl">
+          Describe it. AI builds it. <span class="text-lime">Drag</span> to make it yours.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-text-secondary">
+          DragBuilder's built-in AI generates your app's first screens, data model and logic from plain
+          language — then you adjust anything by dragging and dropping, no technical background needed.
+          Launch on Desktop, Android, iPhone and the Web, all from one project.
+        </p>
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+          <orbit-button
+            href="https://app.dragbuilder.io"
+            size="md"
+            trailing-icon="arrow-right"
+            class="w-full justify-center sm:w-auto"
+          >
+            Try it in your browser
+          </orbit-button>
+          <div id="hero-download-wrap" class="w-full sm:w-auto">
+            <orbit-button href="#download" size="md" variant="light" class="w-full justify-center sm:w-auto">Download DragBuilder</orbit-button>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-text-muted">Free to start. No credit card required.</p>
+      </div>
+
+      <!-- product screenshot — the actual builder canvas, layered for depth -->
+      <div class="relative">
+        <div
+          aria-hidden="true"
+          class="absolute -right-3 top-8 hidden h-[88%] w-[94%] rotate-2 rounded-card border border-border-strong bg-surface-card opacity-60 lg:block"
         >
-          Try it in your browser
-        </orbit-button>
-        <div id="hero-download-wrap" class="w-full sm:w-auto">
-          <orbit-button href="#download" size="md" variant="light" class="w-full justify-center sm:w-auto">Download DragBuilder</orbit-button>
+        </div>
+        <div class="relative overflow-hidden rounded-card border border-border-strong bg-surface-sunken shadow-2xl">
+          <Image
+            src={heroBuilder}
+            alt="The DragBuilder canvas: a library of ready-made pieces on the left, a live preview of the real app in the center, and its settings on the right."
+            width={2000}
+            height={1414}
+            loading="eager"
+            class="w-full"
+          />
         </div>
       </div>
-      <p class="mt-4 text-xs text-text-muted">Free to start. No credit card required.</p>
     </div>
+  </section>
 
-    <!-- Product screenshot — the actual builder canvas, not a mockup -->
-    <div class="relative mx-auto max-w-5xl px-6 pb-24">
-      <div class="overflow-hidden rounded-card border border-border-strong bg-surface-sunken shadow-2xl">
-        <Image
-          src={heroBuilder}
-          alt="The DragBuilder canvas: a library of ready-made pieces on the left, a live preview of the real app in the center, and its settings on the right."
-          width={2000}
-          height={1414}
-          loading="eager"
-          class="w-full"
-        />
-      </div>
+  <!-- Platforms -->
+  <section class="border-y border-border-strong">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-12 gap-y-3 px-6 py-7">
+      {
+        platforms.map((p) => (
+          <span class="flex items-center gap-2.5 text-sm font-semibold text-text-muted">
+            <span class="[&>svg]:h-[18px] [&>svg]:w-[18px]" set:html={iconMarkup(p.icon)} />
+            {p.label}
+          </span>
+        ))
+      }
     </div>
   </section>
 
   <!-- Features -->
   <section id="features" class="mx-auto max-w-6xl px-6 py-24">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">Everything you need to ship</h2>
-      <p class="mt-4 text-text-secondary">From first screen to production build, without leaving the canvas.</p>
+    <div class="max-w-2xl">
+      <p class="text-xs font-bold tracking-wide text-lime uppercase">Everything you need to ship</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
+        Built for people who think in screens, not syntax.
+      </h2>
     </div>
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
-        features.map((f) => (
-          <orbit-card>
-            <h3 class="font-semibold text-text-primary">{f.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-text-secondary">{f.body}</p>
+        features.map((f, i) => (
+          <orbit-card
+            class={i === 0 ? 'sm:col-span-2' : i === features.length - 1 ? 'sm:col-span-2 lg:col-span-3' : ''}
+          >
+            {i === features.length - 1 ? (
+              <div class="flex items-center gap-5">
+                <span
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-field bg-lime/10 text-lime [&>svg]:h-6 [&>svg]:w-6"
+                  set:html={iconMarkup(f.icon)}
+                />
+                <div>
+                  <h3 class="font-semibold text-text-primary">{f.title}</h3>
+                  <p class="mt-1 text-sm leading-relaxed text-text-secondary">{f.body}</p>
+                </div>
+              </div>
+            ) : (
+              <Fragment>
+                <span
+                  class="flex h-11 w-11 items-center justify-center rounded-field bg-lime/10 text-lime [&>svg]:h-6 [&>svg]:w-6"
+                  set:html={iconMarkup(f.icon)}
+                />
+                <h3 class="mt-4 font-semibold text-text-primary">{f.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-text-secondary">{f.body}</p>
+              </Fragment>
+            )}
           </orbit-card>
         ))
       }
     </div>
   </section>
 
+  <!-- How it works -->
+  <section id="how" class="mx-auto max-w-6xl border-t border-border-strong px-6 py-24">
+    <div class="mb-14 max-w-2xl">
+      <p class="text-xs font-bold tracking-wide text-lime uppercase">How it works</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
+        From idea to install in three drags.
+      </h2>
+    </div>
+    <orbit-stepper>
+      {steps.map((s) => <orbit-step state="active">{s.title}</orbit-step>)}
+    </orbit-stepper>
+    <div class="mt-4 grid gap-10 sm:grid-cols-3">
+      {
+        steps.map((s) => (
+          <p class="text-center text-sm leading-relaxed text-text-secondary">{s.body}</p>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto max-w-4xl border-t border-border-strong px-6 py-24">
+    <div class="max-w-2xl">
+      <p class="text-xs font-bold tracking-wide text-lime uppercase">FAQ</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">Questions, answered.</h2>
+    </div>
+    <div class="mt-10 flex flex-col gap-3">
+      {
+        faqs.map((item) => (
+          <details class="faq-item group rounded-panel border border-border-strong bg-surface-card px-6 py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-text-primary">
+              {item.question}
+              <span
+                class="shrink-0 text-text-muted [&>svg]:h-4 [&>svg]:w-4"
+                set:html={iconMarkup('chevron-down')}
+              />
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-text-secondary">{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  })} />
+
   <!-- Download -->
-  <section id="download" class="border-t border-border-strong bg-surface-secondary/20">
-    <div class="mx-auto max-w-5xl px-6 py-24 text-center">
+  <section id="download" class="mx-auto max-w-5xl px-6 py-24">
+    <orbit-card>
+    <div class="px-6 py-16 text-center sm:px-16">
       <h2 class="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">Get DragBuilder</h2>
 
       <!-- Desktop installers — hidden by JS on phones/tablets, where none of these
@@ -177,6 +344,7 @@ const features = [
         </div>
       </div>
     </div>
+    </orbit-card>
   </section>
 
   <!-- Footer -->
@@ -194,6 +362,44 @@ const features = [
     import '@dragbuilder-io/orbit/orbit-button.js';
     import '@dragbuilder-io/orbit/orbit-badge.js';
     import '@dragbuilder-io/orbit/orbit-card.js';
+    import '@dragbuilder-io/orbit/orbit-theme-toggle.js';
+    import '@dragbuilder-io/orbit/orbit-stepper.js';
+
+    // Theme toggle — orbit-theme-toggle only owns the chrome (see its own
+    // source comment), so each consumer wires its own storage key and
+    // FOUC-prevention script; the inline script in Layout.astro's <head>
+    // handles the FOUC part, this handles persistence + live updates.
+    const THEME_KEY = 'dragbuilder-theme';
+    type ThemeChoice = 'auto' | 'dark' | 'light';
+
+    const parseChoice = (value: unknown): ThemeChoice =>
+      value === 'dark' || value === 'light' ? value : 'auto';
+
+    const loadChoice = (): ThemeChoice => parseChoice(localStorage.getItem(THEME_KEY));
+
+    const resolve = (choice: ThemeChoice): 'dark' | 'light' =>
+      choice === 'auto' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : choice;
+
+    const themeToggle = document.getElementById('theme-toggle');
+
+    function applyTheme(choice: ThemeChoice, persist: boolean): void {
+      document.documentElement.dataset.theme = resolve(choice);
+      themeToggle?.setAttribute('value', choice);
+      if (persist) {
+        if (choice === 'auto') localStorage.removeItem(THEME_KEY);
+        else localStorage.setItem(THEME_KEY, choice);
+      }
+    }
+
+    applyTheme(loadChoice(), false);
+
+    themeToggle?.addEventListener('orbit-change', (event) => {
+      applyTheme(parseChoice((event as CustomEvent<{ value: string }>).detail?.value), true);
+    });
+
+    matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+      if (loadChoice() === 'auto') applyTheme('auto', false);
+    });
 
     const ua = navigator.userAgent.toLowerCase();
 
