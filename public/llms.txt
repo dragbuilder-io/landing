@@ -1,0 +1,20 @@
+# DragBuilder
+
+> DragBuilder is a no-code app builder. Its built-in AI generates an app's
+> screens, data model and logic from a plain-language description; you then
+> refine anything by dragging and dropping — no code is written at any
+> point. One project builds for Desktop (macOS, Windows, Linux), Android,
+> iPhone and the Web.
+
+## Key facts
+
+- Free to start, no credit card required.
+- Not a prototype tool: what you build is a real, functioning app, not a mockup or a preview.
+- Projects are exportable — nothing proprietary keeps you locked in.
+- The desktop app is available for macOS, Windows and Linux; DragBuilder also runs directly in the browser.
+
+## Pages
+
+- [Home](https://dragbuilder.io/): product overview, features, FAQ, download links.
+- [Docs](https://docs.dragbuilder.io/): documentation for building with DragBuilder.
+- [Open app](https://app.dragbuilder.io/): try DragBuilder directly in the browser.
