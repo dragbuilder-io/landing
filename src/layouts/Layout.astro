@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = 'DragBuilder — Build real apps by dragging, not coding',
-  description = 'Design and launch a real app just by dragging and dropping — no technical background needed. Works on Desktop, Android, iPhone and the Web.',
+  title = 'DragBuilder — AI App Builder with Drag-and-Drop, No Code Required',
+  description = 'DragBuilder is an AI app builder with drag-and-drop refinement: describe your app and AI generates the screens, data model and logic — then adjust anything by dragging, no code required. Works on Desktop, Android, iPhone and the Web.',
 } = Astro.props;
 
 // Only set to "dev" by the deploy-dev CI job (see .github/workflows/deploy.yml)
@@ -19,6 +19,18 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
 <!doctype html>
 <html lang="en" class="scroll-smooth" data-theme="dark">
   <head>
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('dragbuilder-theme');
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,6 +56,7 @@ const isDevEnv = import.meta.env.PUBLIC_APP_ENV === 'dev';
       name: 'DragBuilder',
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'macOS, Windows, Linux, Android, iOS, Web',
+      keywords: 'AI app builder with drag and drop, AI app builder, no-code AI app builder, build apps with AI, vibe coding',
       description,
       url: 'https://dragbuilder.io',
       offers: {
