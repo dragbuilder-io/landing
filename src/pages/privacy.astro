@@ -1,0 +1,175 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Privacy Policy"
+  description="How DragBuilder collects, uses, stores and shares personal data, including data received from Google APIs."
+  updated="October 8, 2026"
+>
+  <p>
+    This Privacy Policy explains what personal data DragBuilder ("DragBuilder", "we", "us") collects when you use
+    the DragBuilder website at <a href="https://dragbuilder.io">dragbuilder.io</a>, the web app at
+    <a href="https://app.dragbuilder.io">app.dragbuilder.io</a>, and the DragBuilder desktop applications
+    (together, the "Service"), how we use it, and the choices you have.
+  </p>
+
+  <h2>1. Who is responsible for your data</h2>
+  <p>
+    DragBuilder is the controller of the personal data described here. You can reach us at
+    <a href="mailto:admin@dragbuilder.io">admin@dragbuilder.io</a> for any question about this policy or your data.
+  </p>
+
+  <h2>2. Data we collect</h2>
+  <h3>Account data</h3>
+  <p>
+    When you sign in with Google, Apple, GitHub or Microsoft, we receive the basic profile your provider shares:
+    your name, email address, profile picture and a provider-specific user identifier. We use it to create and
+    recognize your account. We never receive or store your password for those providers.
+  </p>
+  <h3>Content you create</h3>
+  <p>
+    Your DragBuilder projects (screens, components, settings and generated app code) and the files you upload to
+    them, such as launcher icons, splash images and other assets. We store this content so that you can open it from
+    any device and so that we can build and publish your apps when you ask us to.
+  </p>
+  <h3>Publishing and signing credentials</h3>
+  <p>
+    If you use the publishing features, you may provide a Google Play service account key, an App Store Connect API
+    key and identifiers, and we generate and store an Android signing key (keystore) and its passwords for each of your
+    projects. These credentials are used only to build, sign and publish your own apps at your request.
+  </p>
+  <h3>Billing data</h3>
+  <p>
+    Payments are handled by our payment provider, Paddle, which acts as the merchant of record. We receive your
+    subscription status, plan, billing email and related identifiers. We do not receive or store your full payment
+    card number.
+  </p>
+  <h3>Support and device information</h3>
+  <p>
+    If you contact support we keep the tickets and messages you send. We also record the devices you sign in from (a
+    device identifier, name and the last time it was used) so that we can alert you when a new device signs in to your
+    account.
+  </p>
+  <h3>Usage and diagnostics</h3>
+  <p>
+    We collect product analytics (which features are used) and error reports so that we can fix bugs and improve the
+    Service. This data may include your user identifier, your device and browser type, and technical details about an
+    error.
+  </p>
+  <h3>AI features</h3>
+  <p>
+    When you use the built-in AI assistant, the instructions you type and the relevant part of your project are sent to
+    our AI provider so that it can generate a response. We do not use this content to advertise to you.
+  </p>
+
+  <h2>3. Data we receive from Google</h2>
+  <p>
+    <strong>Signing in.</strong> When you choose "Sign in with Google" we request only the basic information
+    needed to identify you: your name, email address and profile picture.
+  </p>
+  <p>
+    <strong>Connecting your Firebase / Google Cloud project (desktop app).</strong> If you choose to connect a
+    Firebase or Google Cloud project, the desktop app asks for additional permissions to act in your own project on
+    your behalf: <em>Firebase</em> (<code>auth/firebase</code>), <em>Google Cloud Platform</em>
+    (<code>auth/cloud-platform</code>) and <em>Google Cloud Storage read/write</em>
+    (<code>auth/devstorage.read_write</code>). We use them only to create and configure the Firebase apps and
+    resources that you ask DragBuilder to set up in your project. The access token is used to perform those actions;
+    we do not use it for any other purpose, and you can revoke access at any time at
+    <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.
+  </p>
+  <p>
+    DragBuilder's use and transfer to any other app of information received from Google APIs will adhere to the
+    <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
+    including the Limited Use requirements. We do not sell Google user data, do not use it for advertising, and do not
+    allow people to read it except as needed to provide the features you request, for security, or to comply with law.
+  </p>
+
+  <h2>4. How we use your data</h2>
+  <ul>
+    <li>To provide, operate and secure the Service, and to build and publish your apps when you ask.</li>
+    <li>To process payments and manage your subscription.</li>
+    <li>To send service emails: sign-in alerts for new devices, publishing results, billing and support replies.</li>
+    <li>To provide support and respond to your requests.</li>
+    <li>To understand how the Service is used, fix errors and improve it.</li>
+    <li>To detect and prevent fraud, abuse and security incidents, and to comply with legal obligations.</li>
+  </ul>
+
+  <h2>5. Who we share data with</h2>
+  <p>
+    We do not sell your personal data. We share it only with service providers that process it on our behalf, strictly
+    to run the Service:
+  </p>
+  <table>
+    <thead><tr><th>Provider</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Google Cloud / Firebase</td><td>Hosting, file storage and backend functions</td></tr>
+      <tr><td>Supabase</td><td>Authentication, database (accounts, subscriptions, tickets, devices)</td></tr>
+      <tr><td>Codemagic and GitHub</td><td>Building your mobile apps when you ask us to publish them</td></tr>
+      <tr><td>Paddle</td><td>Payments, taxes and invoicing</td></tr>
+      <tr><td>Resend</td><td>Sending service emails</td></tr>
+      <tr><td>PostHog and Sentry</td><td>Product analytics and error reporting</td></tr>
+      <tr><td>Cloudflare</td><td>Delivery and security of the website and web app</td></tr>
+      <tr><td>Anthropic</td><td>Powering the AI assistant</td></tr>
+    </tbody>
+  </table>
+  <p>
+    We may also disclose information if required by law, or to protect the rights, safety and security of our users
+    and the Service. If DragBuilder is involved in a merger or sale, data may be transferred as part of it, and we
+    will tell you beforehand.
+  </p>
+
+  <h2>6. International transfers</h2>
+  <p>
+    Our providers operate in several countries, including the United States. When your data is transferred outside
+    your country we rely on appropriate safeguards, such as the contractual protections offered by those providers.
+  </p>
+
+  <h2>7. How long we keep data</h2>
+  <p>
+    We keep your account and project data while your account is active. When you delete your account, we delete
+    your projects and personal data, except what we must keep for legal, tax or security reasons (for example billing
+    records). Backups are removed on a rolling basis.
+  </p>
+
+  <h2>8. Security</h2>
+  <p>
+    Your projects and credentials are stored in private cloud storage and are reachable only through your
+    authenticated account. Traffic to the Service is encrypted in transit. No system is perfectly secure, so we also
+    recommend that you protect your sign-in provider account, and that you keep a copy of your Android signing key,
+    since it is needed to update your app.
+  </p>
+
+  <h2>9. Your rights and choices</h2>
+  <p>
+    Depending on where you live, you may have the right to access, correct, export or delete your personal data, to
+    object to or restrict some processing, and to withdraw consent. You can delete your account from within the app,
+    and you can export your projects at any time. To exercise any right, or to ask us for a copy of your data, write
+    to <a href="mailto:admin@dragbuilder.io">admin@dragbuilder.io</a>. You may also lodge a complaint with your local
+    data protection authority.
+  </p>
+
+  <h2>10. Children</h2>
+  <p>
+    The Service is not directed to children under 16, and we do not knowingly collect their personal data. If you
+    believe a child has given us data, contact us and we will delete it.
+  </p>
+
+  <h2>11. Cookies and similar technologies</h2>
+  <p>
+    The website and web app use cookies and local storage that are needed to keep you signed in and remember your
+    preferences, and analytics tools described above. You can control cookies in your browser settings; blocking the
+    essential ones may prevent you from signing in.
+  </p>
+
+  <h2>12. Changes to this policy</h2>
+  <p>
+    We may update this policy as the Service changes. We will post the new version here with a new "Last updated"
+    date, and we will notify you of material changes by email or within the app.
+  </p>
+
+  <h2>13. Contact</h2>
+  <p>
+    Questions or requests: <a href="mailto:admin@dragbuilder.io">admin@dragbuilder.io</a>.
+  </p>
+</LegalLayout>
